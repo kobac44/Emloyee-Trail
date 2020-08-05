@@ -1,4 +1,5 @@
-
+# Emloyee-Trail
+Viewing and managing departments, roles, and employees in a company, so that the establishment can organize and plan their business.
 
 # Table of Contents
 
@@ -10,5 +11,4 @@
 - [Questions](#questions)
 - [Credits](#credits)
 
-# Emloyee-Trail
-Viewing and managing departments, roles, and employees in a company, so that the establishment can organize and plan their business.
+
