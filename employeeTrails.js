@@ -21,17 +21,20 @@ function startemployeeTrails() {
 
     name: "action",
     type: "list",
-    message: "Please Choose.",
-    choices: ['Add a Employee', 'View All Employees', 'View All Employees by Departments', 'Add Department', 'View Employees by Department', 'View All Employees by Manager',
-      'Update an Employee', 'Update Employee Role',
-      "All DONE!"
+    message: "What would you like to do?",
+    choices: ["View Employees", "Add Employees", "Update Employees", "View Roles", "Add Roles", "Update Roles", "View Department Roles",
+      "Add Department", "View Departments Salary"
     ]
-    // Switch stament
   }).then(function (answer) {
-    switch (answer.action)
+    switch (answer.action) {
+      caase
+  }
   })
 
 }
+
+
+
 
 
 
