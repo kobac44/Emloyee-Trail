@@ -17,25 +17,64 @@ connection.connect((err) => {
 });
 
 function startemployeeTrails() {
-  inquirer.prompt({
+  inquirer
+    .prompt({
+      name: "action",
+      type: "list",
+      message: "What would you like to do?",
+      choices: ["View All Employees", "Add Employees", "Update Employees", "View Roles", "Add Roles", "Update Roles", "View Dept Roles",
+        "Add Dept", "View Dept Sal"
+      ]
+    }).then(function (answer) {
+      switch (answer.action) {
+        case "View All Employees":
+          searchViewEmployees();
+          break;
 
-    name: "action",
-    type: "list",
-    message: "What would you like to do?",
-    choices: ["View Employees", "Add Employees", "Update Employees", "View Roles", "Add Roles", "Update Roles", "View Department Roles",
-      "Add Department", "View Departments Salary"
-    ]
-  }).then(function (answer) {
-    switch (answer.action) {
-      caase
-  }
-  })
+        case "Add Employees":
+          searchAddEmployees();
+          break;
+
+        case "Update Employees":
+          searchUpdateEmployess();
+          break;
+
+        case "View Roles":
+          searchViewRoles();
+          break;
+
+        case "Add Roles":
+          searchAddRoles();
+
+        case "Update Roles":
+          searchUpdateRoles();
+
+        case "View Dept Roles":
+          searchViewDepartmentRoles();
+          break;
+
+        case "Add Dept":
+          searchAddDepartments();
+          break;
+
+        case "View Dept Sal":
+          ViewDeptSal();
+          break;
+      }
+    })
 
 }
 
+function searchEmployeesData() {
+  inquirer
+    .prompt({
+      name: "employeeData",
+      type: "list",
+      message: "what would you like to do?",
+      choices: ["View All Employees?",]
 
-
-
+    })
+}
 
 
 
