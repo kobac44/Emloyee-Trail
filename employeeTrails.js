@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "12345",
+  password: "",
   database: "employeeTrails_db",
 });
 connection.connect((err) => {
@@ -22,7 +22,9 @@ function startemployeeTrails() {
       name: "action",
       type: "list",
       message: "What would you like to do?",
-      choices: ["View", "Add", "Update", "Remove Employees", "View Roles", "Add Roles", "Update Roles", "View, Add, Remove Dept", "View Dept Salary",]
+      choices: ["View", "Add", "Update", "Remove Employees", "View Roles", "Add Roles", "Update Roles",
+        "View, Add, Remove Dept", "View Dept Salary",
+      ]
     }).then((answer) => {
       switch (answer.action) {
         case "View, Add, Update, Remove All Employees":
