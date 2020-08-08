@@ -10,6 +10,7 @@ const connection = mysql.createConnection({
   user: "root",
   password: "p_e-@rT11MS#",
   database: "employeeTrails__db",
+  insecureAuth: true,
 });
 connection.connect((err) => {
   if (err) throw err;

@@ -1,5 +1,5 @@
 {
-  "name": "Emloyee-Trail",
+  "name": "Employee-Trail",
   "version": "1.0.0",
   "description": "Viewing and managing departments, roles, and employees in a company, so that the establishment can organize and plan their business.",
   "main": "index.js",
@@ -19,7 +19,11 @@
   "homepage": "https://github.com/kobac44/Emloyee-Trail#readme",
   "dependencies": {
     "console.table": "^0.10.0",
-    "inquirer": "^0.2.3",
+    "inquirer": "^0.2.5",
     "mysql": "^2.18.1"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {}
 }
