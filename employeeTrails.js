@@ -22,25 +22,17 @@ function startemployeeTrails() {
       name: "action",
       type: "list",
       message: "What would you like to do?",
-      choices: ["View All Employees", "Add Employees", "Update Employees", "View Roles", "Add Roles", "Update Roles", "View Dept Roles",
+      choices: ["View", "Add", "Update", "Remove Employees", "View Roles", "Add Roles", "Update Roles", "View Dept Roles",
         "Add Dept", "View Dept Sal"
       ]
-    }).then(function (answer) {
+    }).then((answer) => {
       switch (answer.action) {
-        case "View All Employees":
-          searchViewEmployees();
-          break;
-
-        case "Add Employees":
-          searchAddEmployees();
-          break;
-
-        case "Update Employees":
-          searchUpdateEmployess();
+        case "View, Add, Update, Remove All Employees":
+          searchEmployeesData();
           break;
 
         case "View Roles":
-          searchViewRoles();
+          searchRoles();
           break;
 
         case "Add Roles":
@@ -68,20 +60,51 @@ function startemployeeTrails() {
 function searchEmployeesData() {
   inquirer
     .prompt({
-      name: "employeeData",
+      name: "employeesData",
       type: "list",
-      message: "what would you like to do?",
-      choices: ["View All Employees?",]
+      message: "What would you like to do?",
+      choices: ["View All Employees?", "Add Employees?",
+        "View All Employees by Department?", "View All Employees by Manager?", "Update Employees?", "Remove Employee?",
+
+      ]
+
+    }).then((answer) => {
+      switch (answer.employeeData) {
+        case "View All Employees?":
+          viewEmployees();
+          break;
+
+        case "Add Employees?":
+          addemployees();
+          break;
+
+        case "View All Employees by Department?":
+          employeesbyDepartment();
+          break;
+
+        case "View All Employees by Manager?":
+          employessbyManage();
+          break;
+
+        case "Update Employees?":
+          updateEmployees();
+          break;
+
+        case "Remove Employee?":
+          removeEmployee();
+          break;
+
+      }
+    });
+}
+
+function searchRoles() {
+  inquirer
+    .prompt({
+      name: "Roles",
+      type: "list",
+      message: "What would you like to do?",
 
     })
 }
 
-
-
-
-
-// Start our server so that it can begin listening to client requests.
-app.listen(PORT, function () {
-  // Log (server-side) when our server has started
-  console.log("Server listening on: http://localhost:" + PORT);
-});
