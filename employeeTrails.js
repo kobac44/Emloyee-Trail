@@ -8,9 +8,8 @@ const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "p_e-@rT11MS#",
-  database: "employeeTrails__db",
-  insecureAuth: true,
+  password: "12345",
+  database: "employeeTrails_db",
 });
 connection.connect((err) => {
   if (err) throw err;
