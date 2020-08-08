@@ -22,9 +22,7 @@ function startemployeeTrails() {
       name: "action",
       type: "list",
       message: "What would you like to do?",
-      choices: ["View", "Add", "Update", "Remove Employees", "View Roles", "Add Roles", "Update Roles", "View Dept Roles",
-        "Add Dept", "View Dept Sal"
-      ]
+      choices: ["View", "Add", "Update", "Remove Employees", "View Roles", "Add Roles", "Update Roles", "View, Add, Remove Dept", "View Dept Salary",]
     }).then((answer) => {
       switch (answer.action) {
         case "View, Add, Update, Remove All Employees":
@@ -41,21 +39,18 @@ function startemployeeTrails() {
         case "Update Roles":
           searchUpdateRoles();
 
-        case "View Dept Roles":
-          searchViewDepartmentRoles();
-          break;
-
-        case "Add Dept":
-          searchAddDepartments();
+        case "View, Add, Remove Dept":
+          deptData();
           break;
 
         case "View Dept Sal":
-          ViewDeptSal();
+          searchDeptSalary();
           break;
       }
-    })
+    });
 
 }
+
 
 function searchEmployeesData() {
   inquirer
@@ -104,7 +99,50 @@ function searchRoles() {
       name: "Roles",
       type: "list",
       message: "What would you like to do?",
+      choices: ["View All Roles?", "Add a Role?", "Remove a Role?",]
 
-    })
+    }).then((answer) => {
+      switch (answer.Roles) {
+        case "View All Roles?":
+          viewRoles();
+          break;
+
+        case "Add a Role?":
+          addRole();
+          break;
+
+        case "Remove a Role?":
+          deleteRole();
+          break;
+      }
+    });
 }
 
+function deptData() {
+  inquirer
+    .prompt({
+      name: "deptData",
+      type: "list",
+      message: "What would you like to do?",
+      choices: ["View All Departments?", "Add a Department?", "Remove a Department?", "View Dept Sal?",]
+
+    }).then((answer) => {
+      switch (answer.deptData) {
+        case "View All Departments?":
+          viewDepts();
+          break;
+
+        case "Add a Department":
+          addDept();
+          break;
+
+        case "Remove a Department?":
+          deleteDept();
+          break;
+
+        case "View Dept Sal?":
+          viewSalary();
+          break;
+      }
+    });
+}
