@@ -21,8 +21,8 @@ function runChoices() {
       type: 'list',
       message: 'What would you like to do?',
       choices: [
-        'View All Employees',
         'Add Employee',
+        'View All Employees',
         'Remove Employee',
         'Add Employee Role',
         'Delete Employee Role',
@@ -35,12 +35,12 @@ function runChoices() {
     }
   ]).then(function (answer) {
     switch (answer.action) {
-      case 'View All Employees':
-        viewAllEmployees();
-        break;
-
       case 'Add Employee':
         addEmployee();
+        break;
+
+      case 'View All Employees':
+        viewAllEmployees();
         break;
 
       case 'Remove Employee':
@@ -75,23 +75,59 @@ function runChoices() {
         deleteDepartment();
         break;
 
-      case 'exit':
-        console.log("SEE YA!!");
-        connection.end();
-        break;
+      // case 'exit':
+      //   console.log("SEE YA!!");
+      //   connection.end();
+      //   break;
     }
   });
 }
-// FUNCTIONS BASED ON USER SELECTION
-// ----------------------------------
-function viewAllEmployees() {
-  var query = "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;";
-  connection.query(query, function (err, res) {
+function addEmployee() {
+  let listNames = ["None"];
+  connection.query('select first_name from employee', function (err, data) {
     if (err);
-    for (var i = 0; i < res.length; i++) {
-      console.log("Id: " + res[i].id + " Name: " + res[i].first_name + " " + res[i].last_name + " || Title: " + res[i].title + " || Salary: " + res[i].salary + " || Dept: " + res[i].name);
+    for (let i = 0; i < data; i++) {
+      listNames.push(data[i].first_name);
     }
-  })
 
-};
+  })
+  inquirer.prompt([
+    {
+      name: 'first',
+      type: 'input',
+      message: 'Enter the first name of the employee',
+    },
+    {
+      name: 'last',
+      type: 'input',
+      message: 'Enter the last name',
+
+    },
+    {
+      name: 'erole',
+      type: 'list',
+      message: 'What is employee role?',
+      choices: [
+        'Software Engineer',
+        'Software Tester',
+        'Lead Engineer',
+        'Sales Lead',
+        'Sales Person',
+        'Lawyer'
+      ]
+    },
+    {
+      name: 'managerName',
+      type: 'list',
+      message: 'Who is the employee manager?',
+      choices: listNames
+    }
+
+  ]).then(function (response) {
+    connection.query(`INSERT INTO addEmployee CONCAT(manager.first_name, ' ', manager.last_name) AS manage values (select id from role where title=?),(select id from employee e where e.first_name=?))`, [response.first, response.last, response.erole, response.managerName],
+      function (err, result) {
+        console.log(result);
+      })
+  })
+}
 runChoices();
