@@ -5,12 +5,11 @@ const cTable = require("console.table");
 
 
 const connection = mysql.createConnection({
-  host: "localhost",
+  host: 'localhost',
   port: "3306",
-
   user: 'root',
-  password: '12345',
-  database: 'employees_db',
+  password: '',
+  database: 'employees',
 });
 
 function runChoices() {
@@ -59,6 +58,10 @@ function runChoices() {
       case 'Delete Employee Role':
         deleteRole();
         break;
+
+      case 'Exit':
+        connection.end();
+
     }
   });
 };
@@ -67,14 +70,14 @@ function runChoices() {
 function viewAllEmployees() {
   console.log("Viewing Employees\n");
 
-  var query = `SELECT * all employee data, employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id;`;
-  connection.query(query, function (err, res) {
-    if (err);
+  connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id;",
+    function (err, res) {
+      if (err) throw err;
 
-    console.table(res);
-    console.log("Viewing SEEN!!\n");
+      console.log(res);
+      console.log("Viewing SEEN!!\n");
 
-  });
+    });
 };
 runChoices();
 
@@ -89,19 +92,19 @@ function viewDepartment() {
     })
     .then(function (answer) {
       const query =
-        "SELECT employee.first_name, employee.last_name " +
+        `SELECT employee.first_name, employee.last_name " +
         "FROM employee " +
         "INNER JOIN role " +
         "ON employee.role_id=role.id " +
         "INNER JOIN department " +
         "ON role.department_id=department.id " +
         "WHERE department.name='" +
-        answer.department +
-        "';";
+        answer.department`;
       connection.query(query, function (err, res) {
-        if (err) throw err;
+        if (err);
         console.table(res);
-        runChoice();
+
       });
+      runChoice();
     });
 }
