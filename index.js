@@ -23,7 +23,7 @@ function runChoices() {
       choices: [
         'View All Employees',
         'Add Employee',
-        'View Employee Role',
+        'Add Employee Role',
         'Add Employee By Department',
         'View Department',
         'Delete Employee by Department'
@@ -41,10 +41,6 @@ function runChoices() {
 
       case 'Add Employee Role':
         addRole();
-        break;
-
-      case 'View Employee Role':
-        viewRole();
         break;
 
       case 'Add Employee By Department':
@@ -73,13 +69,83 @@ function viewAllEmployees() {
   connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id;",
     function (err, res) {
       if (err) throw err;
-
-      console.log(res);
-      console.log("Viewing SEEN!!\n");
-
+      for (var i = 0; i < res.length; i++) {
+        console.log("Id: " + res[i].id + " Name: " + res[i].first_name + " " + res[i].last_name + " || Title: " + res[i].title + " || Salary: " + res[i].salary + " || Dept: " + res[i].name);
+        // console.log(res);
+        console.log("Viewing SEEN!!\n");
+      };
     });
 };
 runChoices();
+
+
+
+// Add Emloyee
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        name: "firstName",
+        type: "input",
+        message: "Please enter employees first name:",
+      },
+      {
+        name: "lastName",
+        type: "input",
+        message: "Please enter employees last name:",
+      },
+      {
+        name: "jobID",
+        type: "input",
+        message: "Please enter the job ID:",
+      },
+      {
+        name: "role",
+        type: "list",
+        message: "What is the employee's role?",
+        choices: [
+          "Sales Lead",
+          "Salesperson",
+          "Lead Engineer",
+          "Software Engineer",
+          "Account Manager",
+          "Accountant",
+          "Legal Team Lead",
+          "Lawyer"
+        ]
+      }
+
+    ]);
+}
+
+//Add Employee Role
+function addRole() {
+  inquirer
+    .prompt([
+      {
+        name: "role",
+        type: "input",
+        message: "What is the employee Role?"
+      },
+      {
+        name: "salary",
+        type: "input",
+        message: "What is the salary?"
+      }
+    ])
+    .then(function (answer) {
+      if (answer.role === "Lead Engineer" || "Software Engineer" || "Account Manager" || "Accountant" || "Legal Team Lead" || "Lawyer") {
+        connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id;", [answer.role], function (err, result) {
+          if (err) throw err;
+        }
+
+        );
+      };
+
+    }
+    )
+}
+
 
 // Displays all employees by department: improve by making a loop that picks up department names
 function viewDepartment() {
