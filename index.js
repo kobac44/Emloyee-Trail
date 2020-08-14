@@ -81,76 +81,74 @@ function viewAllEmployees() {
 runChoices();
 
 
+// Add Emloyee
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        name: "firstName",
+        type: "input",
+        message: "Please enter employees first name:",
+      },
+      {
+        name: "lastName",
+        type: "input",
+        message: "Please enter employees last name:",
+      },
+      {
+        type: 'number',
+        message: 'what is the role ID of the new employee?',
+        name: 'role_id'
+      },
+      {
+        type: 'number',
+        message: 'what is the manager ID of the new employee?',
+        name: 'manager_id'
+      }
+    ])
+    .then(answer => {
+      const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUE ("${answer.first_name}", "${answer.last_name}", "${answer.role_id}", "${answer.manager_id}")`
+      connection.query(query, function (err, res) {
+        if (err) throw err
+        console.table(res)
+        runChoices();
+      })
+
+    })
+}
 
 
+//Add Employee Role
+function addRole() {
+  inquirer
+    .prompt([
+      {
+        name: "role",
+        type: "input",
+        message: "What employee Role would you like to add?"
+      },
+      {
+        name: "salary",
+        type: "input",
+        message: "What is the salary?",
+        validate: function (value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      },
+      
+      const query = `UPDATE employee SET role_id = "${answer.role_id}" WHERE id = ${answer.id}`
+  connection.query(query, function (err, res) {
+    if (err) throw err
+    console.log('Employee role updated!')
+    runChoices();
+  })
+  
+  ])
 
-
-// // Add Emloyee
-// function addEmployee() {
-//   inquirer
-//     .prompt([
-//       {
-//         name: "firstName",
-//         type: "input",
-//         message: "Please enter employees first name:",
-//       },
-//       {
-//         name: "lastName",
-//         type: "input",
-//         message: "Please enter employees last name:",
-//       },
-//       {
-//         name: "jobID",
-//         type: "input",
-//         message: "Please enter the job ID:",
-//       },
-//       {
-//         name: "role",
-//         type: "list",
-//         message: "What is the employee's role?",
-//         choices: [
-//           "Sales Lead",
-//           "Salesperson",
-//           "Lead Engineer",
-//           "Software Engineer",
-//           "Account Manager",
-//           "Accountant",
-//           "Legal Team Lead",
-//           "Lawyer"
-//         ]
-//       }
-
-//     ]);
-// };
-
-
-// //Add Employee Role
-// function addRole() {
-//   inquirer
-//     .prompt([
-//       {
-//         name: "role",
-//         type: "input",
-//         message: "What is the employee Role?"
-//       },
-//       {
-//         name: "salary",
-//         type: "input",
-//         message: "What is the salary?"
-//       }
-//     ])
-//     .then(function (answer) {
-//       if (answer.role === "Lead Engineer" || "Software Engineer" || "Account Manager" || "Accountant" || "Legal Team Lead" || "Lawyer") {
-//         connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id;", [answer.role], function (err, result) {
-//           if (err) throw err;
-//         }
-
-//         );
-//       };
-
-//     }
-//     )
-// };
+}
 
 
 
