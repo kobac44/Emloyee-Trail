@@ -120,35 +120,44 @@ function addEmployee() {
 
 //Add Employee Role
 function addRole() {
-  inquirer
-    .prompt([
-      {
-        name: "role",
-        type: "input",
-        message: "What employee Role would you like to add?"
-      },
-      {
-        name: "salary",
-        type: "input",
-        message: "What is the salary?",
-        validate: function (value) {
-          if (isNaN(value) === false) {
-            return true;
-          }
-          return false;
-        }
-      },
-      
-      const query = `UPDATE employee SET role_id = "${answer.role_id}" WHERE id = ${answer.id}`
-  connection.query(query, function (err, res) {
-    if (err) throw err
-    console.log('Employee role updated!')
-    runChoices();
-  })
-  
-  ])
+  let roles = [];
+  connection.query('select title from role', function (err, data) {
+    if (err) throw err;
+    for (let i = 0; i < data.length; i++) {
+      roles.push(data[i].title);
+    }
 
+    inquirer.prompt([
+      {
+        name: 'title',
+        type: 'list',
+        message: 'What is employee role?',
+        choices: roles
+      },
+      {
+        name: 'salary',
+        type: 'list',
+        message: 'Enter the salary',
+        choices: ['100000', '80000', '150000', '120000', '160000', '125000', '250000', '190000']
+
+      },
+      {
+        name: 'deptName',
+        type: 'input',
+        message: 'Enter the department name'
+
+      }
+    ]).then(function (response) {
+      connection.query(`insert into role (title,salary,department_id) values(?,?,(select id from department where name =?))`, [response.title, response.salary, response.deptName],
+        function (err, result) {
+          if (err) throw err;
+          console.log(result);
+        })
+      runChoices();
+    })
+  })
 }
+
 
 
 
