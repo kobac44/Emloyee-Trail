@@ -22,8 +22,8 @@ function runChoices() {
         'View All Employees',
         'Add Employee',
         'Add Employee Role',
-        'Add Employee By Department',
-        'View Employee Role',
+        'View Employee By Department',
+        'View Employee By Role',
         'View Department',
         'Update Employee Roles'
       ]
@@ -42,12 +42,12 @@ function runChoices() {
           addEmployeeRole();
           break;
 
-        case 'Add Employee By Department':
-          addDepartment();
+        case 'View Employee By Department':
+          viewByDepartment();
           break;
 
-        case 'View Employee Role':
-          viewRole();
+        case 'View Roles':
+          viewRoles();
           break;
 
         case 'View Department':
@@ -159,5 +159,27 @@ function addEmployeeRole() {
       })
       runChoices();
     });
+  })
+}
+
+// View Employee By Department
+function viewByDepartment() {
+  console.log("View Departments:");
+  connection.query("SELECT * FROM department", (err, results) => {
+    if (err) throw err;
+    console.log(results)
+    runChoices();
+  })
+
+
+}
+
+// 'View Roles'
+function viewRoles() {
+  console.log("View Role");
+  connection.query("SELECT * employee ROLE", (err, results) => {
+    if (err) throw err;
+    console.log(results)
+    runChoices();
   })
 }
