@@ -22,9 +22,8 @@ function runChoices() {
         'View All Employees',
         'Add Employee',
         'Add Employee Role',
-        'View Employee By Department',
-        'View Employee By Role',
         'View Department',
+        'View Role',
         'Update Employee Roles'
       ]
     })
@@ -42,20 +41,16 @@ function runChoices() {
           addEmployeeRole();
           break;
 
-        case 'View Employee By Department':
+        case 'View Department':
           viewByDepartment();
           break;
 
-        case 'View Roles':
-          viewRoles();
-          break;
-
-        case 'View Department':
-          viewDepartment();
+        case 'View Role':
+          viewRole();
           break;
 
         case 'Update Employee Roles':
-          updateRoles();
+          updateRole();
           break;
 
         case 'EXIT':
@@ -152,7 +147,7 @@ function addEmployeeRole() {
       const query = `SELECT id FROM department WHERE name = "${answer.department}";`;
       connection.query(query, function (err, res) {
         if (err) throw err;
-        // const savedId = res[0].id;
+
         connection.query(`INSERT INTO role (title, salary, department_id) VALUES ("${answer.title}", ${answer.salary}, ;`, function (err, res) {
           console.log("** Role Created **")
         });
@@ -170,16 +165,13 @@ function viewByDepartment() {
     console.log(results)
     runChoices();
   })
-
-
 }
 
 // 'View Roles'
-function viewRoles() {
-  console.log("View Role");
-  connection.query("SELECT * employee ROLE", (err, results) => {
+function viewRole() {
+  connection.query("SELECT * FROM employee", function (err, res) {
     if (err) throw err;
-    console.log(results)
+    console.table(res);
     runChoices();
   })
 }
