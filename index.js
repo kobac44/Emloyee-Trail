@@ -114,48 +114,57 @@ function addEmployee() {
 
 
 //Add Employee Role
-function addEmployeeRole() {
-  let roles = [];
-  connection.query('SELECT title from role', function (err, data) {
-    if (err) throw err;
-    for (let i = 0; i < data.length; i++) {
-      roles.push(data[i].title);
-    }
-
-    inquirer.prompt([
+function addEmployeeRole(_data) {
+  inquirer
+    .prompt([
       {
-        name: 'title',
-        type: 'list',
-        message: 'What is employee role?',
-        choices: roles
-      },
-      {
-        name: 'salary',
-        type: 'list',
-        message: 'Enter the salary',
-        choices: ['100000', '80000', '150000', '120000', '160000', '125000', '250000', '190000']
+        name: "name",
+        type: "input",
+        message: "Please type in name of new role"
 
       },
       {
-        name: 'departmentName',
-        type: 'input',
-        message: 'Enter the department name',
+        name: "id",
+        type: "input",
+        message: "What id postion is your new role in"
+
+      },
+      {
+        name: "salary",
+        type: "input",
+        message: "What is the salary of new role?",
+
+      },
+      {
+        name: "department_id",
+        type: "list",
+        message: "Which department is the new role in?",
         choices: ['Sales', 'Engineering', 'Finance', 'Legal']
       },
-    ]).then(answer => {
-      console.log(answer.department);
-      const query = `SELECT id FROM department WHERE name = "${answer.department}";`;
-      connection.query(query, function (err, res) {
-        if (err) throw err;
-
-        connection.query(`INSERT INTO role (title, salary, department_id) VALUES ("${answer.title}", ${answer.salary}, ;`, function (err, res) {
-          console.log("** Role Created **")
-        });
-      })
+    ])
+    .then(function (response) {
+      connection.query(
+        "INSERT INTO roles SET ?",
+        {
+          title: reponse.name,
+          salary: response.salary,
+          id: response.id,
+          department_id: reponse.id
+        },
+        function (error, _reponse) {
+          console.log(response);
+          if (err) throw err;
+        }
+      )
+    })
+    .then(function () {
+      console.log(`--This role has been added!--`);
+    })
+    .then(function () {
       runChoices();
-    });
-  })
+    })
 }
+
 
 // View Employee By Department
 function viewByDepartment() {
@@ -184,7 +193,6 @@ function updateRole() {
         name: "name",
         type: "input",
         message: "Please type in name of new role"
-
       },
       {
         name: "id",
@@ -195,13 +203,12 @@ function updateRole() {
       {
         name: "salary",
         type: "input",
-        message: "What is the salary of new role?",
+        message: "What is the salary of new role?"
       },
       {
         name: "department_id",
         type: "list",
-        message: "Which department is the new role in?",
-        choices: ['Sales', 'Engineering', 'Finance', 'Legal']
+        message: "Which department is the new role in?"
       },
     ])
     .then(function (response) {
