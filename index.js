@@ -39,7 +39,7 @@ function runChoices() {
           break;
 
         case 'Add Employee Role':
-          addRole();
+          addEmployeeRole();
           break;
 
         case 'Add Employee By Department':
@@ -72,7 +72,7 @@ function viewAllEmployees() {
     function (err, res) {
       if (err);
       for (var i = 0; i < res.length; i++) {
-        console.log("Id: " + res[i].id + " Name: " + res[i].first_name + " " + res[i].last_name + " || Title: " + res[i].title + " || Salary: " + res[i].salary + " || Dept: " + res[i].name);
+        console.log("Id: " + res[i].id + " Name: " + res[i].first_name + " " + res[i].last_name + " || Title: " + res[i].title + " || Salary: " + res[i].salary + " || department: " + res[i].name);
       };
       runChoices();
     });
@@ -119,9 +119,9 @@ function addEmployee() {
 
 
 //Add Employee Role
-function addRole() {
+function addEmployeeRole() {
   let roles = [];
-  connection.query('select title from role', function (err, data) {
+  connection.query('SELECT title from role', function (err, data) {
     if (err) throw err;
     for (let i = 0; i < data.length; i++) {
       roles.push(data[i].title);
@@ -142,50 +142,22 @@ function addRole() {
 
       },
       {
-        name: 'deptName',
+        name: 'departmentName',
         type: 'input',
-        message: 'Enter the department name'
-
-      }
-    ]).then(function (response) {
-      connection.query(`insert into role (title,salary,department_id) values(?,?,(select id from department where name =?))`, [response.title, response.salary, response.deptName],
-        function (err, result) {
-          if (err) throw err;
-          console.log(result);
-        })
+        message: 'Enter the department name',
+        choices: ['Sales', 'Engineering', 'Finance', 'Legal']
+      },
+    ]).then(answer => {
+      console.log(answer.department);
+      const query = `SELECT id FROM department WHERE name = "${answer.department}";`;
+      connection.query(query, function (err, res) {
+        if (err) throw err;
+        // const savedId = res[0].id;
+        connection.query(`INSERT INTO role (title, salary, department_id) VALUES ("${answer.title}", ${answer.salary}, ;`, function (err, res) {
+          console.log("** Role Created **")
+        });
+      })
       runChoices();
-    })
+    });
   })
 }
-
-
-
-
-// // Displays all employees by department: improve by making a loop that picks up department names
-// function viewDepartment() {
-//   inquirer
-//     .prompt({
-//       name: "department",
-//       type: "list",
-//       message: "What department's employees would you like to see?",
-//       choices: ["Sales", "Engineering", "Finance", "Legal"],
-//     })
-//     .then(function (answer) {
-//       const query =
-//         `SELECT employee.first_name, employee.last_name " +
-//         "FROM employee " +
-//         "INNER JOIN role " +
-//         "ON employee.role_id=role.id " +
-//         "INNER JOIN department " +
-//         "ON role.department_id=department.id " +
-//         "WHERE department.name='" +
-//         answer.department`;
-//       connection.query(query, function (err, res) {
-//         if (err);
-//         console.table(res);
-
-//       });
-
-//     });
-// }
-
