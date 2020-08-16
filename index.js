@@ -175,3 +175,55 @@ function viewRole() {
     runChoices();
   })
 }
+
+// Update Employee Roles
+function updateRole() {
+  inquirer
+    .prompt([
+      {
+        name: "name",
+        type: "input",
+        message: "Please type in name of new role"
+
+      },
+      {
+        name: "id",
+        type: "input",
+        message: "What id postion is your new role in"
+
+      },
+      {
+        name: "salary",
+        type: "input",
+        message: "What is the salary of new role?",
+      },
+      {
+        name: "department_id",
+        type: "list",
+        message: "Which department is the new role in?",
+        choices: ['Sales', 'Engineering', 'Finance', 'Legal']
+      },
+    ])
+    .then(function (response) {
+      connection.query(
+        "INSERT INTO roles SET ?",
+        {
+          title: response.name,
+          salary: response.salary,
+          id: response.id,
+          department_id: response.id
+        },
+        function (error, _response) {
+          console.log(response);
+          if (error) throw error;
+        }
+      );
+    })
+    .then(function () {
+      console.log(`--This role has been added!--`);
+    })
+    .then(function () {
+      runChoices();
+
+    });
+}
