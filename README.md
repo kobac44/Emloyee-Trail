@@ -1,6 +1,8 @@
 # Emloyee-Trails-     Please type in: "node index.js" in the CLI prompt.
 Viewing and managing departments, roles, and employees in a company, so that the establishment can organize and plan their business.
 
+[![License](https://img.shields.io/badge/License-MIT-lime.svg)](https://opensource.org/licenses/MIT)
+
 
 # Table of Contents
 
