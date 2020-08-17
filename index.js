@@ -81,37 +81,55 @@ function addEmployee() {
   inquirer
     .prompt([
       {
-        name: "firstName",
+        name: "first_name",
         type: "input",
-        message: "Please enter employees first name:",
+        message: "What is the new employee's firts name?"
       },
       {
-        name: "lastName",
+        name: "last_name",
         type: "input",
-        message: "Please enter employees last name:",
+        message: "What is the new employee's last name?"
       },
       {
-        type: 'number',
-        message: 'what is the role ID of the new employee?',
-        name: 'role_id'
+        name: "role_id",
+        type: "input",
+        message: "Please set the employee's role id?"
       },
       {
-        type: 'number',
-        message: 'what is the manager ID of the new employee?',
-        name: 'manager_id'
+        name: "manager_id",
+        type: "input",
+        message: "If the employee has a manager please assign Manager , 1,3,5 or 7 = id",
+
+        validate: function (value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
       }
+
     ])
-    .then(answer => {
-      const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUE ("${answer.first_name}", "${answer.last_name}", "${answer.role_id}", "${answer.manager_id}")`
-      connection.query(query, function (err, res) {
-        if (err) throw err
-        console.table(res)
-        runChoices();
-      })
+    .then(function (answerA) {
+      // when finished prompting, insert a new item into the db
+      connection.query(
+        "INSERT INTO employee SET ?",
+        {
+          first_name: answerA.first_name,
+          last_name: answerA.last_name,
+          role_id: answerA.role_id || 0,
+          manager_id: answerA.manager_id || 0
+        },
+        function (err) {
+          if (err) throw err;
+          console.log("Your new Employee was added successfully!");
 
+          runChoices();
+
+        }
+      );
     })
-}
 
+}
 
 //Add Employee Role
 function addEmployeeRole(_data) {
@@ -146,14 +164,14 @@ function addEmployeeRole(_data) {
       connection.query(
         "INSERT INTO roles SET ?",
         {
-          title: reponse.name,
+          title: response.name,
           salary: response.salary,
           id: response.id,
-          department_id: reponse.id
+          department_id: response.id
         },
-        function (error, _reponse) {
+        function (error, _response) {
           console.log(response);
-          if (err) throw err;
+          if (error) throw error;
         }
       )
     })
@@ -162,7 +180,7 @@ function addEmployeeRole(_data) {
     })
     .then(function () {
       runChoices();
-    })
+    });
 }
 
 
