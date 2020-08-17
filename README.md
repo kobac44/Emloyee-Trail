@@ -1,4 +1,4 @@
-# Emloyee-Trails-     Please start with: node index.js
+# Emloyee-Trails-     Please type in: "node index.js" in the CLI prompt.
 Viewing and managing departments, roles, and employees in a company, so that the establishment can organize and plan their business.
 
 
@@ -29,10 +29,11 @@ Viewing and managing departments, roles, and employees in a company, so that the
 
 
 # Visual
+* Link to Screencastify:
 
+https://drive.google.com/file/d/1GW6fRh_ccuOp9PQOAbaXwQPl1NK7O5c7/view
 
-
-
+<img src="./Assets/Employee Tracker sshot.jpg" width="200px">
 
 
 
